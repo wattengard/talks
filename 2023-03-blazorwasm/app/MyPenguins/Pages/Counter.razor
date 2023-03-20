@@ -1,28 +1,35 @@
 ﻿@page "/counter"
-@inject IStateManager state
+@inject ILocalStorageService localStorage
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @(state.GetState<int>("count"))</p>
+<p role="status">Current count: @count</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-<button class="btn btn-danger" @onclick="DumpState">Dump state</button>
-<pre style='display: @(stateContainerVisible ? "block" : "none");'>@stateContainerText</pre>
+<button class="btn btn-danger" @onclick="ResetCount">Reset count</button>
 @code {
-    private bool stateContainerVisible = false;
-    private string stateContainerText = "";
-    private void IncrementCount()
+    private int count;
+    protected override async Task OnInitializedAsync()
     {
-        var oldState = state.GetState<int>("count");
-        var newState = oldState + 1;
-        state.SetState("count", newState);
+        count = await localStorage.GetItemAsync<int>("counter");
     }
 
-    private void DumpState() 
+    
+    
+    private async Task IncrementCount()
     {
-        stateContainerText = state.DumpStateAsJson();
-        stateContainerVisible = true;
+        int random = Random.Shared.Next(1000);
+        count += random;
+        await localStorage.SetItemAsync<int>("counter", count);
     }
+
+    private async Task ResetCount() {
+        count = 0;
+        await localStorage.SetItemAsync<int>("counter", count);
+    }
+
 }
+
+
