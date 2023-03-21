@@ -1,15 +1,24 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@inject IGeolocationService geolocation
 
 <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Værmelding</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<select class="form-select" @onchange="LokasjonEndret">
+    <option selected disabled>Velg lokasjon</option>
+    @foreach (var lok in lokasjoner)
+    {
+        <option value="@lok.Slug">@lok.Navn</option>
+    }
+</select>
+
+<button class="btn btn-primary" @onclick="FinnLokasjon">Finn lokasjon...</button>
 
 @if (forecasts == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Venter på stedsvalg...</em></p>
 }
 else
 {
@@ -38,10 +47,45 @@ else
 
 @code {
     private YrResponse? forecasts;
-
-    protected override async Task OnInitializedAsync()
+    private List<Lokasjon> lokasjoner = new List<Lokasjon>
     {
-        //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-        forecasts = await Http.GetFromJsonAsync<YrResponse>("weather?lat=63.349&lon=10.333");
+        new Lokasjon { Slug="bouvet", Navn = "Bouvetøya", Latitude = "-54.445", Longitude = "3.379" },
+        new Lokasjon { Slug="kattem", Navn = "Kattem", Latitude = "63.3493", Longitude = "10.3335" },
+        new Lokasjon { Slug="kg35", Navn = "Kjøpmannsgata 35", Latitude = "63.430", Longitude = "10.402" },
+        new Lokasjon { Slug="tjoda", Navn = "Tjodalyng", Latitude = "59.054", Longitude = "10.127" },
+        new Lokasjon { Slug="granka", Navn = "Playa del Cura", Latitude = "27.799", Longitude = "-15.732" },
+    };
+
+    public async Task LokasjonEndret(ChangeEventArgs ev)
+    {
+        var lokSlug = ev.Value!.ToString();
+        var lokasjon = lokasjoner.Single(q => q.Slug!.Equals(lokSlug, StringComparison.InvariantCultureIgnoreCase));
+
+        forecasts = await Http.GetFromJsonAsync<YrResponse>($"weather?lat={lokasjon.Latitude}&lon={lokasjon.Longitude}");
+    }
+
+    public void FinnLokasjon() {
+        geolocation.GetCurrentPosition(async position =>
+        {
+            var stedsnavn = await HentStedsNavn(position);
+            lokasjoner.Add(new Lokasjon
+            {
+                Slug = stedsnavn!.ToLower(),
+                Navn = stedsnavn,
+                Latitude = position.Coords.Latitude.ToString().Replace(',', '.'),
+                Longitude = position.Coords.Longitude.ToString().Replace(',', '.')
+            });
+            StateHasChanged();
+        });
+    }
+    
+    private async Task<string> HentStedsNavn(GeolocationPosition position)
+    {
+        var lat = position.Coords.Latitude.ToString().Replace(',', '.');
+        var lon = position.Coords.Longitude.ToString().Replace(',', '.');
+        var url = new Uri($"https://ws.geonorge.no/stedsnavn/v1/punkt?nord={lat}&ost={lon}&koordsys=4326&radius=200&utkoordsys=4258&treffPerSide=10&side=1");
+        var sted = await Http.GetFromJsonAsync<Sted>(url);
+        var stedsNavn = sted!.navn[0].stedsnavn[0].skrivemåte;
+        return stedsNavn;
     }
 }

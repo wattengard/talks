@@ -9,6 +9,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddGeolocationServices();
 
 builder.Services.AddScoped(sp => new HttpClient
     {
