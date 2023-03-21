@@ -29,7 +29,7 @@ else
                     <td>@forecast.time.ToShortTimeString()</td>
                     <td>@forecast.data?.instant?.details?.air_temperature</td>
                     <td>@forecast.data?.instant?.details?.wind_speed</td>
-                    <td>@forecast.data?.next_1_hours?.summary?.symbol_code</td>
+                    <td><img src='@($"weather/{forecast.data?.next_1_hours?.summary?.symbol_code}.svg")' style="width: 24px;"></td>
                 </tr>
             }
         </tbody>
