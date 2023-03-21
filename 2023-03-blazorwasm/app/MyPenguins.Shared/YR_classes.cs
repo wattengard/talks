@@ -1,5 +1,6 @@
 ﻿namespace MyPenguins.Shared;
-// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+#pragma warning disable CS8618
+
 public class Data
 {
     public Instant instant { get; set; }
@@ -87,4 +88,4 @@ public class Units
     public string wind_from_direction { get; set; }
     public string wind_speed { get; set; }
 }
-
+#pragma warning restore CS8618
