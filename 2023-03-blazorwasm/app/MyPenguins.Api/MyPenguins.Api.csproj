@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyPenguins.Shared\MyPenguins.Shared.csproj" />
+    <ProjectReference Include="..\MyPenguins\MyPenguins.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0-preview.1.23112.2" />
+  </ItemGroup>
+
+</Project>

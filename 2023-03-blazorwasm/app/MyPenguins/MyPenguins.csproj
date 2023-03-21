@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0-preview.1.23112.2" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyPenguins.Shared\MyPenguins.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

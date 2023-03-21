@@ -16,20 +16,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Tid</th>
+                <th>Temperatur</th>
+                <th>Vindstyrke</th>
+                <th>Symbol</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in forecasts.properties.timeseries.Take(12))
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.time.ToShortTimeString()</td>
+                    <td>@forecast.data?.instant?.details?.air_temperature</td>
+                    <td>@forecast.data?.instant?.details?.wind_speed</td>
+                    <td>@forecast.data?.next_1_hours?.summary?.symbol_code</td>
                 </tr>
             }
         </tbody>
@@ -37,23 +37,11 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private YrResponse? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
         //forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
-        var result = await Http.GetFromJsonAsync<dynamic>("compact?lat=63.349&long=10.333");
-        Console.WriteLine(result);
-    }
-
-    public class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        forecasts = await Http.GetFromJsonAsync<YrResponse>("weather?lat=63.349&lon=10.333");
     }
 }

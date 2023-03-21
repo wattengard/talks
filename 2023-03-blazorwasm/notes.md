@@ -22,4 +22,6 @@ Dette er overhodet ikke et godt eksempel på hvordan man lager en statecontainer
 > Vis frem `MyPenguins.csproj` for å se innslag i packagereference. Vis frem `Program.cs` for å vise at vi legger den i services. Vis fram `Counter.razor` for å se endringer for å lagre i localstorage.
 
 ### myp4: Vi fikser på vær-siden så den faktisk henter været.
-Vær siden i standardprosjektet henter været fra en statisk json fil. Hadde det ikke vært gøy om vi kunne fått den til å hente været fra YR istedet?
+Vær siden i standardprosjektet henter været fra en statisk json fil. Hadde det ikke vært gøy om vi kunne fått den til å hente været fra YR istedet? Siden YR beskytter API'et sitt med CORS må vi introdusere en liten server på vår side. Denne vil være veldig enkel og kun ha endepunktet `/weather` som mer eller mindre bare proxyer kallet fra vår app til YR. Klasser for resultatet er kjapt rasket sammen med en JSON til C# tjeneste online, men YR tilbyr OpenAPI/Swagger så i en "orntlig" app ville man brukt det.
+
+> Lukk prosjektet og hent ut neste steg og åpne løsningen på nytt. Vis fram server-prosjektet og endringer vi gjør i `FetchData.razor` for å få været til å fungere.

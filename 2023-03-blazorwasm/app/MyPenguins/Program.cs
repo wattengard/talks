@@ -10,10 +10,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredLocalStorage();
 
-builder.Services.AddScoped(sp => new HttpClient {
-    BaseAddress = new Uri("https://api.met.no/weatherapi/locationforecast/2.0/")
-});
-
-
+builder.Services.AddScoped(sp => new HttpClient
+    {
+        BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
+    });
 
 await builder.Build().RunAsync();

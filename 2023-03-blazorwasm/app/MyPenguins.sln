@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPenguins", "MyPenguins\MyPenguins.csproj", "{813C5506-7AB6-4F10-BE46-BAAF48335C9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPenguins.Api", "MyPenguins.Api\MyPenguins.Api.csproj", "{C47494C4-C751-412E-908B-6DEBFF8DA843}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPenguins.Shared", "MyPenguins.Shared\MyPenguins.Shared.csproj", "{62B327EC-8738-45E6-88A7-774549B2F1EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{813C5506-7AB6-4F10-BE46-BAAF48335C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813C5506-7AB6-4F10-BE46-BAAF48335C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813C5506-7AB6-4F10-BE46-BAAF48335C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813C5506-7AB6-4F10-BE46-BAAF48335C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C47494C4-C751-412E-908B-6DEBFF8DA843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47494C4-C751-412E-908B-6DEBFF8DA843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47494C4-C751-412E-908B-6DEBFF8DA843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47494C4-C751-412E-908B-6DEBFF8DA843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B327EC-8738-45E6-88A7-774549B2F1EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B327EC-8738-45E6-88A7-774549B2F1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B327EC-8738-45E6-88A7-774549B2F1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B327EC-8738-45E6-88A7-774549B2F1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
