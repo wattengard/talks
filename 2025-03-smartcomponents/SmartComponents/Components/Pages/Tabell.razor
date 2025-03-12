@@ -1,0 +1,92 @@
+﻿@page "/tabell"
+@using System.Diagnostics
+@using System.Globalization
+@using Humanizer
+@using Humanizer.Localisation
+@using SmartComponents.Engine
+@using SmartComponents.Models
+@inject IAiService AiService
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Tabell</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-floating">
+                <textarea id="inputFelt" class="form-control" placeholder="Inputfelt" @bind="InputText" style="height: 400px;"></textarea>
+                <label for="inputFelt">Inputfelt</label>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-2">
+                <button type="button" class="btn btn-primary" @onclick="PrimaryClick">
+                    <span class="spinner-border spinner-border-sm @(SubmitText == "Send" ? "d-none" : "")" role="status" aria-hidden="true"></span>
+                    @SubmitText
+                </button>
+                <button type="button" class="btn btn-primary" @onclick="Empty">
+                    Tøm
+                </button>
+            </div>
+            <p>Siste forespørsel brukte @Tidsbruk.Humanize(minUnit: TimeUnit.Second, maxUnit: TimeUnit.Minute, culture: CultureInfo.CreateSpecificCulture("nb"))</p>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>StockState</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+                    @foreach (var produkt in Products.Products)
+                    {
+                        <tr>
+                            <td>@produkt.Name</td>
+                            <td>@produkt.Category</td>
+                            <td>@produkt.Price</td>
+                            <td>@produkt.Status.ToString()</td>
+                            <td>@produkt.Score</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    public string InputText { get; set; } = "";
+    public string SubmitText { get; set; } = "Send";
+    public TimeSpan Tidsbruk { get; set; } = TimeSpan.Zero;
+
+    ProductList Products { get; set; } = new()
+    {
+        Products =
+        [
+            new("Wireless headphones", "Audio", 1999m, StockState.IN_STOCK, 4.7),
+            new("Smartwatch", "Wearables", 2499m, StockState.NO_STOCK, 4.5),
+            new("Bluetooth-speaker", "Audio", 1299m, StockState.LOW_STOCK, 4.3),
+            new("Gaming-keyboard", "Accessories", 899m, StockState.IN_STOCK, 4.6),
+            new("External SSD", "Storage", 1799m, StockState.IN_STOCK, 4.8)
+        ]
+    };
+
+    public void Empty()
+    {
+        InputText = "";
+    }
+
+    public async Task PrimaryClick()
+    {
+        var sw = Stopwatch.StartNew();
+        SubmitText = "Jobber";
+        var result = await AiService.ManipulateObject(Products, InputText);
+        Products = result!;
+        SubmitText = "Send";
+        Tidsbruk = sw.Elapsed;
+        sw.Reset();
+    }
+}

@@ -1,0 +1,76 @@
+﻿@page "/autocomplete"
+@using System.Globalization
+@using Humanizer
+@using Humanizer.Localisation
+@using SmartComponents.Engine
+@inject IAiService AiService
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h3>Reiseregning</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-floating">
+                <input type="text" class="form-control" @bind="InputText" id="inputFelt"/>
+                <label for="inputFelt">Inputfelt</label>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-2">
+                <button type="button" class="btn btn-primary" @onclick="PrimaryClick">
+                    <span class="spinner-border spinner-border-sm @(SubmitText == "Send" ? "d-none" : "")" role="status" aria-hidden="true"></span>
+                    @SubmitText
+                </button>
+                <button type="button" class="btn btn-primary" @onclick="Empty">
+                    Tøm
+                </button>
+            </div>
+            <p>Siste forespørsel brukte @Tidsbruk.Humanize(minUnit: TimeUnit.Second, maxUnit: TimeUnit.Minute, culture: CultureInfo.CreateSpecificCulture("nb"))</p>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Input</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Items)
+                    {
+                        <tr>
+                            <td>@item.Input</td>
+                            <td>@item.Category</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    public string InputText { get; set; } = string.Empty;
+    public TimeSpan Tidsbruk { get; set; } = TimeSpan.Zero;
+    public string SubmitText { get; set; } = "Send";
+    public List<(string Input, string Category)> Items { get; set; } = [];
+
+    public List<string> Categories { get; set; } =
+    [
+        "Fruit", "Accessories", "Dairy", "Snacks", "Softdrinks", "Alcoholic drinks", "General food", "Other"
+    ];
+
+    private void Empty()
+    {
+        InputText = string.Empty;
+    }
+
+    private async Task PrimaryClick()
+    {
+        var result = await AiService.CreateObject<string>($"Using the following list of categories: <{string.Join(", ", Categories)}> return the category of the following item: {InputText}");
+        Items.Add(new (){ Input = InputText, Category = result });
+        InputText = "";
+    }
+
+}

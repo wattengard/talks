@@ -1,0 +1,9 @@
+Adresseeksempel:
+Første eksempel ved bruk av codestral, en variant av mistral modellen laget spesielt for koding, brukte ett minutt ved testing.
+Med "vanlig" mistral så bruker denne mellom 6 og 20 sekunder, og har et OK+ resultat.
+
+Tabellkomponent:
+Kan spørres om å gjøre ting med tabellen. Har en tendens til å renske hele tabellen for data.
+
+Autocomplete:
+"Fruit", "Accessories", "Dairy", "Snacks", "Softdrinks", "Alcoholic drinks", "General food", "Other"

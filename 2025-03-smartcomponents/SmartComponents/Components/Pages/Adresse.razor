@@ -1,0 +1,87 @@
+﻿@page "/adresse"
+@using System.Diagnostics
+@using System.Globalization
+@using System.Text.Json
+@using Humanizer
+@using Humanizer.Localisation
+@using SmartComponents.Engine
+@using SmartComponents.Models
+@inject IAiService aiService
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your name" required value="@AddressForm.Name">
+                </div>
+                <div class="mb-3">
+                    <label for="address1" class="form-label">Address Line 1</label>
+                    <input type="text" class="form-control" id="address1" placeholder="Street address" required value="@AddressForm.AddressLine1">
+                </div>
+                <div class="mb-3">
+                    <label for="address2" class="form-label">Address Line 2</label>
+                    <input type="text" class="form-control" id="address2" placeholder="Apartment, suite, etc. (optional)" value="@AddressForm.AddressLine2">
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="zipcode" class="form-label">Zip Code</label>
+                        <input type="text" class="form-control" id="zipcode" placeholder="Enter zip code" required value="@AddressForm.PostCode">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="postname" class="form-label">Post Name</label>
+                        <input type="text" class="form-control" id="postname" placeholder="City/Town" required value="@AddressForm.PostName">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" placeholder="Country" required value="@AddressForm.Country" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Eksempel epost</h3>
+            <code class="lead">@LeadText</code>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <button type="button" class="btn btn-primary" @onclick="PrimaryClick">
+                    <span class="spinner-border spinner-border-sm @(SubmitText == "Behandle" ? "d-none" : "")" role="status" aria-hidden="true"></span>
+                    @SubmitText
+                </button>
+            </div>
+            <p>Siste forespørsel brukte @Tidsbruk.Humanize(minUnit: TimeUnit.Second, maxUnit: TimeUnit.Minute, culture: CultureInfo.CreateSpecificCulture("nb"))</p>
+        </div>
+    </div>
+</div>
+@code {
+    public AddressForm AddressForm { get; set; } = new();
+    public string SubmitText { get; set; } = "Behandle";
+    public TimeSpan Tidsbruk { get; set; } = TimeSpan.Zero;
+
+    public string LeadText = @"Hei TechGadget AS,
+
+Jeg har bestilt en trådløs hodetelefon fra dere og vil gjerne bekrefte leveringsadressen min for forsendelsen:
+
+Ola Nordmann
+Storgata 15B
+0161 Oslo
+Norge
+
+Gi meg gjerne beskjed dersom dere trenger ytterligere informasjon. Takk for hjelpen!
+
+Vennlig hilsen,
+Ola Nordmann
++47 400 12 345
+ola.nordmann@email.com";
+    public async Task PrimaryClick()
+    {
+        var sw = Stopwatch.StartNew();
+        SubmitText = "Laster...";
+        var result = await aiService.CreateObject<AddressForm>($"Extract name and address from this email, norwegian post codes are only numbers: {LeadText}");
+        AddressForm = result!;
+        SubmitText = "Behandle";
+        Tidsbruk = sw.Elapsed;
+        sw.Reset();
+    }
+}

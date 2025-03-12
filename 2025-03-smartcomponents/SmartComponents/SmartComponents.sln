@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartComponents", "SmartComponents.csproj", "{59DB13F6-8B37-45B5-B103-1FF57F5B14E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartComponents.Engine", "..\SmartComponents.Engine'\SmartComponents.Engine.csproj", "{8CC0A916-5B82-4159-B8FC-520549B34759}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59DB13F6-8B37-45B5-B103-1FF57F5B14E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59DB13F6-8B37-45B5-B103-1FF57F5B14E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59DB13F6-8B37-45B5-B103-1FF57F5B14E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59DB13F6-8B37-45B5-B103-1FF57F5B14E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CC0A916-5B82-4159-B8FC-520549B34759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC0A916-5B82-4159-B8FC-520549B34759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC0A916-5B82-4159-B8FC-520549B34759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC0A916-5B82-4159-B8FC-520549B34759}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ABFAE934-3B86-4723-AFF5-9ACA93BBBA63}
+	EndGlobalSection
+EndGlobal
