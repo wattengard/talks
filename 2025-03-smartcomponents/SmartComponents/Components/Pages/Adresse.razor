@@ -43,12 +43,13 @@
         </div>
         <div class="col-lg-6">
             <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Eksempel epost</h3>
-            <code class="lead">@LeadText</code>
+            <textarea class="form-control" rows="15" @bind=@LeadText></textarea>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <button type="button" class="btn btn-primary" @onclick="PrimaryClick">
                     <span class="spinner-border spinner-border-sm @(SubmitText == "Behandle" ? "d-none" : "")" role="status" aria-hidden="true"></span>
                     @SubmitText
                 </button>
+                <button class="btn btn-primary" type="button" @onclick="(() => UpdateText(1))">Last 1</button><button class="btn btn-primary" type="button" @onclick="(() => UpdateText(2))">Last 2</button><button class="btn btn-primary" type="button" @onclick="(() => UpdateText(3))">Last 3</button>
             </div>
             <p>Siste forespørsel brukte @Tidsbruk.Humanize(minUnit: TimeUnit.Second, maxUnit: TimeUnit.Minute, culture: CultureInfo.CreateSpecificCulture("nb"))</p>
         </div>
@@ -59,7 +60,29 @@
     public string SubmitText { get; set; } = "Behandle";
     public TimeSpan Tidsbruk { get; set; } = TimeSpan.Zero;
 
-    public string LeadText = @"Hei TechGadget AS,
+    public void UpdateText(int number)
+    {
+        if (number == 1)
+        {
+            LeadText = @"Hei Hansen Elektriske,
+
+Jeg ønsker å få vurdert noen elektriske installasjoner hjemme hos meg og lurer på om dere har mulighet til å komme på en befaring.
+
+**Adressen min er:**
+Ola Nordmann
+Storgata 12
+0155 Oslo
+
+Gi meg gjerne beskjed om når det passer for dere, så finner vi et tidspunkt som fungerer.
+
+Ser frem til å høre fra dere!
+
+Vennlig hilsen,
+Ola Nordmann
+Telefon: 912 34 567";
+        } else if (number == 2)
+        {
+            LeadText = @"Hei TechGadget AS,
 
 Jeg har bestilt en trådløs hodetelefon fra dere og vil gjerne bekrefte leveringsadressen min for forsendelsen:
 
@@ -74,6 +97,25 @@ Vennlig hilsen,
 Ola Nordmann
 +47 400 12 345
 ola.nordmann@email.com";
+        } else if (number == 3)
+        {
+            LeadText = @"hei,
+
+eg har litt trøbbel med røra her heime og treng en rørlegger som kan komme å sjå på det. helst snart!! det lekker litt (trur eg?) og eg vil ikkje at det skal bli verre 😬
+
+**Adresse:**
+Ragnar Rør, Vannveien 7, 1234 Dryppstad
+
+ka tid kan dokke komme? helst så fort som mulig! ring meg eller send mail, eg svara så fort eg kan!
+
+mvh,
+Ragnar Rør
+Tlf: 900 12 345";
+        }
+    }
+
+    public string LeadText = "";
+
     public async Task PrimaryClick()
     {
         var sw = Stopwatch.StartNew();

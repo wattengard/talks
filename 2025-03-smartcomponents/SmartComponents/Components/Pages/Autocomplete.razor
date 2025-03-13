@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h3>Reiseregning</h3>
+            <h3>Semantisk autocomplete</h3>
         </div>
     </div>
     <div class="row">
@@ -30,21 +30,30 @@
         <div class="col">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Input</th>
-                        <th>Category</th>
-                    </tr>
+                <tr>
+                    <th>Input</th>
+                    <th>Category</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Items)
-                    {
-                        <tr>
-                            <td>@item.Input</td>
-                            <td>@item.Category</td>
-                        </tr>
-                    }
+                @foreach (var item in Items)
+                {
+                    <tr>
+                        <td>@item.Input</td>
+                        <td>@item.Category</td>
+                    </tr>
+                }
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h6>Tilgjengelige kategorier</h6>
+            @foreach (var category in Categories)
+            {
+                <span class="badge text-bg-info">@category</span>
+            }
         </div>
     </div>
 
@@ -58,7 +67,26 @@
 
     public List<string> Categories { get; set; } =
     [
-        "Fruit", "Accessories", "Dairy", "Snacks", "Softdrinks", "Alcoholic drinks", "General food", "Other"
+        "Fruits & Vegetables",
+        "Dairy & Eggs",
+        "Meat & Poultry",
+        "Seafood",
+        "Bakery",
+        "Frozen Foods",
+        "Canned Goods",
+        "Dry Goods & Pasta",
+        "Snacks & Sweets",
+        "Beverages",
+        "Cereals & Breakfast",
+        "Condiments & Sauces",
+        "Spices & Seasonings",
+        "Baking Supplies",
+        "Health & Beauty",
+        "Household Essentials",
+        "Cleaning Supplies",
+        "Pet Supplies",
+        "Baby Products",
+        "Organic & Specialty Foods"
     ];
 
     private void Empty()
